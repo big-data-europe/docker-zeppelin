@@ -7,7 +7,7 @@ ENV ZEPPELIN_VERSION 0.7.2
 
 RUN apt-get update && apt-get install wget
 RUN set -x \
-    && curl -fSL "http://www-eu.apache.org/dist/zeppelin/zeppelin-0.7.2/zeppelin-0.7.2-bin-all.tgz" -o /tmp/zeppelin.tgz \
+    && curl -fSL "http://www-eu.apache.org/dist/zeppelin/zeppelin-0.7.3/zeppelin-0.7.3-bin-all.tgz" -o /tmp/zeppelin.tgz \
     && tar -xzvf /tmp/zeppelin.tgz -C /opt/ \
     && mv /opt/zeppelin-* /opt/zeppelin \
     && rm /tmp/zeppelin.tgz
