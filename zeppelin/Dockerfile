@@ -1,7 +1,7 @@
-FROM bde2020/spark-base:2.1.0-hadoop2.8-hive-java8
+FROM bde2020/spark-base:2.2.0-hadoop2.8-hive-java8
 MAINTAINER Ivan Ermilov <ivan.s.ermilov@gmail.com>
 
-ENV APACHE_SPARK_VERSION 2.1.0
+ENV APACHE_SPARK_VERSION 2.2.0
 ENV APACHE_HADOOP_VERSION 2.8.0
 ENV ZEPPELIN_VERSION 0.7.2
 
