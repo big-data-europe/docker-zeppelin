@@ -1,7 +1,7 @@
 up:
 	docker network create spark-net
 	docker-compose build
-	docker-compose up
+	docker-compose up -d 
 
 down:
 	docker-compose down
