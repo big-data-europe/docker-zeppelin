@@ -1,34 +1,23 @@
-[![Gitter chat](https://badges.gitter.im/gitterHQ/gitter.png)](https://gitter.im/big-data-europe/Lobby)
-
+very-very simple project. Just a docker-compose infrastructure + hello world for Spark
 # Docker Zeppelin
 
 This repository contains [Apache Zeppelin](https://zeppelin.apache.org/) docker image, which is tuned to work with BDE clusters.
 
 # Example Usage
+```
+docker-compose up sbt # will compile scala project into ja file /jars/sparkjob_2.11-0.1.jar
+docker-compose run spark-master /spark/bin/spark-submit --verbose --master local /jars/sparkjob_2.11-0.1.jar
+```
 
-For example usage see [docker-compose.yml](./docker-compose.yml) and [SANSA-Notebooks repository](https://github.com/SANSA-Stack/SANSA-Notebooks).
-
-# Dev
-Start Hadoop/Spark cluster with Zeppelin notebook:
+# Output
 ```
-make up
+...
+18/12/29 23:01:41 INFO handler.ContextHandler: Started o.s.j.s.ServletContextHandler@3af37506{/metrics/json,null,AVAILABLE,@Spark}
+############################
+############################
+########HELLO WORLD#########
+############################
+############################
+18/12/29 23:01:41 INFO server.ServerConnector: Stopped Spark@759fad4{HTTP/1.1}{0.0.0.0:4040}
+...
 ```
-Tear down Hadoop/Spark cluster with Zeppelin notebook:
-```
-make down
-```
-Bash into Zeppelin container:
-```
-make bash
-```
-Build and run Zeppelin separately:
-```
-make up
-docker stop dockerzeppelin_zeppelin_1 && docker rm dockerzeppelin_zeppelin_1
-make run
-```
-Build Zeppelin:
-```
-make build
-```
-For more details see the Makefile.
