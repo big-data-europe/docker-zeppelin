@@ -13,11 +13,11 @@ object SparkJob {
       val sc = new SparkContext(conf)
 
       // do stuff
-      println("************")
-      println("************")
-      println("Hello, world!")
-      println("************")
-      println("************")
+      println("############################")
+      println("############################")
+      println("########HELLO WORLD#########")
+      println("############################")
+      println("############################")
 
       // terminate spark context
       sc.stop()
