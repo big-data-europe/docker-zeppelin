@@ -1,6 +1,12 @@
 version: "2.1"
 
 services:
+  sbt:
+    image: hseeberger/scala-sbt
+    volumes:
+      - ./scala/:/scala/
+    command: bash -c "cd /scala/sparkjob/ && sbt clean package"
+    
   namenode:
     image: bde2020/hadoop-namenode:1.1.0-hadoop2.8-java8
     container_name: namenode
@@ -12,6 +18,9 @@ services:
     healthcheck:
       interval: 5s
       retries: 100 
+    depends_on: 
+      sbt:
+        condition: service_started
     networks:
       - spark-net
   datanode:
@@ -33,7 +42,7 @@ services:
     image: bde2020/spark-master:2.1.0-hadoop2.8-hive-java8
     container_name: spark-master
     ports:
-      - "8080:8080"
+      - "9080:8080"
       - "7077:7077"
     environment:
       - CORE_CONF_fs_defaultFS=hdfs://namenode:8020
@@ -42,6 +51,8 @@ services:
         condition: service_healthy
       datanode:
         condition: service_healthy
+    volumes:
+      - ./scala/sparkjob/target/scala-2.11/:/jars/
     healthcheck:
       interval: 5s
       retries: 100 
@@ -64,7 +75,7 @@ services:
   zeppelin:
     build: ./zeppelin
     ports:
-      - 80:8080
+      - 81:8080
     volumes:
       - ./notebook:/opt/zeppelin/notebook
     environment:
