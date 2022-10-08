@@ -1,13 +1,13 @@
-FROM bde2020/spark-base:2.1.0-hadoop2.8-hive-java8
+FROM bde2020/spark-base:3.3.0-hadoop3.3
 MAINTAINER Ivan Ermilov <ivan.s.ermilov@gmail.com>
 
-ENV APACHE_SPARK_VERSION 2.1.0
-ENV APACHE_HADOOP_VERSION 2.8.0
-ENV ZEPPELIN_VERSION 0.7.2
+ENV APACHE_SPARK_VERSION 3.3.0
+ENV APACHE_HADOOP_VERSION 3.3.3
+ENV ZEPPELIN_VERSION 0.10.1
 
-RUN apt-get update && apt-get install wget
+#RUN apt-get update && apt-get install wget
 RUN set -x \
-    && curl -fSL "http://www-eu.apache.org/dist/zeppelin/zeppelin-0.7.2/zeppelin-0.7.2-bin-all.tgz" -o /tmp/zeppelin.tgz \
+    && curl -fSL "https://dlcdn.apache.org/zeppelin/zeppelin-0.10.1/zeppelin-0.10.1-bin-all.tgz" -o /tmp/zeppelin.tgz \
     && tar -xzvf /tmp/zeppelin.tgz -C /opt/ \
     && mv /opt/zeppelin-* /opt/zeppelin \
     && rm /tmp/zeppelin.tgz
