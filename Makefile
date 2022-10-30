@@ -8,7 +8,7 @@ down:
 	docker network rm spark-net
 
 bash:
-	docker exec -it dockerzeppelin_zeppelin_1 bash
+	docker run --rm -it bde2020/zeppelin:0.10.1 bash
 
 run:
 	docker build -t zeppelin ./zeppelin/.
