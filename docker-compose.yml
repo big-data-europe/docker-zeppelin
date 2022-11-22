@@ -1,26 +1,26 @@
-version: "2.1"
+version: "3"
 
 services:
   namenode:
-    image: bde2020/hadoop-namenode:1.1.0-hadoop2.8-java8
+    image: bde2020/hadoop-namenode:2.0.0-hadoop3.3.3-java8
     container_name: namenode
     volumes:
       - ./data/namenode:/hadoop/dfs/name
     environment:
       - CLUSTER_NAME=test
-      - CORE_CONF_fs_defaultFS=hdfs://namenode:8020
+      - CORE_CONF_fs_defaultFS=hdfs://namenode:9000
     healthcheck:
       interval: 5s
       retries: 100 
     networks:
       - spark-net
   datanode:
-    image: bde2020/hadoop-datanode:1.1.0-hadoop2.8-java8
+    image: bde2020/hadoop-datanode:2.0.0-hadoop3.3.3-java8
     container_name: datanode
     volumes:
       - ./data/datanode:/hadoop/dfs/data
     environment:
-      - CORE_CONF_fs_defaultFS=hdfs://namenode:8020
+      - CORE_CONF_fs_defaultFS=hdfs://namenode:9000
     depends_on:
       namenode:
         condition: service_healthy
@@ -30,13 +30,15 @@ services:
     networks:
       - spark-net
   spark-master:
-    image: bde2020/spark-master:2.1.0-hadoop2.8-hive-java8
+    image: bde2020/spark-master:3.3.0-hadoop3.3
     container_name: spark-master
     ports:
       - "8080:8080"
       - "7077:7077"
     environment:
-      - CORE_CONF_fs_defaultFS=hdfs://namenode:8020
+      - CORE_CONF_fs_defaultFS=hdfs://namenode:9000
+    environment:
+      SERVICE_PRECONDITION: "namenode:9000 namenode:9870 datanode:9864"
     depends_on:
       namenode:
         condition: service_healthy
@@ -48,14 +50,14 @@ services:
     networks:
       - spark-net
   spark-worker:
-    image: bde2020/spark-worker:2.1.0-hadoop2.8-hive-java8
+    image: bde2020/spark-worker:3.3.0-hadoop3.3
     environment:
       - "SPARK_MASTER=spark://spark-master:7077"
     environment:
-      - CORE_CONF_fs_defaultFS=hdfs://namenode:8020
+      - CORE_CONF_fs_defaultFS=hdfs://namenode:9000
     depends_on:
-      spark-master:
-        condition: service_healthy
+      - spark-master
+    #    condition: service_healthy
     healthcheck:
       interval: 5s
       retries: 100 
@@ -64,19 +66,28 @@ services:
   zeppelin:
     build: ./zeppelin
     ports:
-      - 80:8080
+      - 8090:8080
     volumes:
       - ./notebook:/opt/zeppelin/notebook
     environment:
-      CORE_CONF_fs_defaultFS: "hdfs://namenode:8020"
+      CORE_CONF_fs_defaultFS: "hdfs://namenode:9000"
       SPARK_MASTER: "spark://spark-master:7077"
+      SPARK_HOME: "/spark"
       MASTER: "spark://spark-master:7077"
+      ZEPPELIN_ADDR: "0.0.0.0"
+      
       #SPARK_SUBMIT_OPTIONS: "--jars /opt/sansa-examples/jars/sansa-examples-spark-2016-12.jar"
     depends_on:
-      spark-master:
-        condition: service_healthy
+      
+      #  condition: service_healthy
+      
+      #  condition: service_healthy
       namenode:
         condition: service_healthy
+    depends_on:
+      - spark-master
+      - spark-worker
+
     networks:
       - spark-net
 

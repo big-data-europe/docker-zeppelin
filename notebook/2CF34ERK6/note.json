@@ -1,47 +1,50 @@
 {
   "paragraphs": [
     {
-      "text": "import scala.math.random\n\nimport org.apache.spark.sql.SparkSession\n\nval slices \u003d 2\nval n \u003d math.min(100000L * slices, Int.MaxValue).toInt // avoid overflow\nval count \u003d spark.sparkContext.parallelize(1 until n, slices).map { i \u003d\u003e\n    val x \u003d random * 2 - 1\n    val y \u003d random * 2 - 1\n    if (x*x + y*y \u003c\u003d 1) 1 else 0\n}.reduce(_ + _)\nprintln(\"Pi is roughly \" + 4.0 * count / (n - 1))",
+      "text": "%pyspark\nimport scala.math.random\n\nimport org.apache.spark.sql.SparkSession\n\nval slices \u003d 2\nval n \u003d math.min(100000L * slices, Int.MaxValue).toInt // avoid overflow\nval count \u003d spark.sparkContext.parallelize(1 until n, slices).map { i \u003d\u003e\n    val x \u003d random * 2 - 1\n    val y \u003d random * 2 - 1\n    if (x*x + y*y \u003c\u003d 1) 1 else 0\n}.reduce(_ + _)\nprintln(\"Pi is roughly \" + 4.0 * count / (n - 1))",
       "user": "anonymous",
-      "dateUpdated": "May 11, 2017 8:47:28 AM",
+      "dateUpdated": "2022-10-08 03:16:05.764",
       "config": {
         "colWidth": 12.0,
         "enabled": true,
         "results": {},
         "editorSetting": {
-          "language": "text",
-          "editOnDblClick": false
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
         },
-        "editorMode": "ace/mode/text",
+        "editorMode": "ace/mode/python",
         "editorHide": false,
-        "tableHide": true
+        "tableHide": true,
+        "fontSize": 9.0
       },
       "settings": {
         "params": {},
         "forms": {}
       },
       "results": {
-        "code": "SUCCESS",
+        "code": "ERROR",
         "msg": [
           {
             "type": "TEXT",
-            "data": "\nimport scala.math.random\n\nimport org.apache.spark.sql.SparkSession\n\nslices: Int \u003d 2\n\nn: Int \u003d 200000\n\ncount: Int \u003d 156835\nPi is roughly 3.136715683578418\n"
+            "data": "java.lang.NoSuchMethodError: scala.tools.nsc.Settings.usejavacp()Lscala/tools/nsc/settings/AbsSettings$AbsSetting;\n\tat org.apache.zeppelin.spark.SparkScala211Interpreter.open(SparkScala211Interpreter.scala:70)\n\tat org.apache.zeppelin.spark.NewSparkInterpreter.open(NewSparkInterpreter.java:102)\n\tat org.apache.zeppelin.spark.SparkInterpreter.open(SparkInterpreter.java:62)\n\tat org.apache.zeppelin.interpreter.LazyOpenInterpreter.open(LazyOpenInterpreter.java:69)\n\tat org.apache.zeppelin.spark.PySparkInterpreter.getSparkInterpreter(PySparkInterpreter.java:664)\n\tat org.apache.zeppelin.spark.PySparkInterpreter.createGatewayServerAndStartScript(PySparkInterpreter.java:260)\n\tat org.apache.zeppelin.spark.PySparkInterpreter.open(PySparkInterpreter.java:194)\n\tat org.apache.zeppelin.interpreter.LazyOpenInterpreter.open(LazyOpenInterpreter.java:69)\n\tat org.apache.zeppelin.interpreter.remote.RemoteInterpreterServer$InterpretJob.jobRun(RemoteInterpreterServer.java:616)\n\tat org.apache.zeppelin.scheduler.Job.run(Job.java:188)\n\tat org.apache.zeppelin.scheduler.FIFOScheduler$1.run(FIFOScheduler.java:140)\n\tat java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)\n\tat java.util.concurrent.FutureTask.run(FutureTask.java:266)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293)\n\tat java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)\n\tat java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)\n\tat java.lang.Thread.run(Thread.java:748)\n"
           }
         ]
       },
       "apps": [],
       "jobName": "paragraph_1494446151737_1359394047",
       "id": "20170510-195551_400594820",
-      "dateCreated": "May 10, 2017 7:55:51 PM",
-      "dateStarted": "May 10, 2017 8:40:36 PM",
-      "dateFinished": "May 10, 2017 8:41:04 PM",
-      "status": "FINISHED",
+      "dateCreated": "2017-05-10 19:55:51.000",
+      "dateStarted": "2022-10-08 03:16:05.784",
+      "dateFinished": "2022-10-08 03:16:06.245",
+      "status": "ERROR",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "",
       "user": "anonymous",
-      "dateUpdated": "May 11, 2017 8:49:13 AM",
+      "dateUpdated": "2017-05-11 08:49:13.000",
       "config": {
         "colWidth": 12.0,
         "enabled": true,
@@ -60,34 +63,20 @@
       "apps": [],
       "jobName": "paragraph_1494446793336_527866307",
       "id": "20170510-200633_2002902352",
-      "dateCreated": "May 10, 2017 8:06:33 PM",
+      "dateCreated": "2017-05-10 20:06:33.000",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     }
   ],
   "name": "SparkPi",
   "id": "2CF34ERK6",
+  "noteParams": {},
+  "noteForms": {},
   "angularObjects": {
-    "2CHD267MK:shared_process": [],
-    "2CFCYW8ZZ:shared_process": [],
-    "2CGGU1AUC:shared_process": [],
-    "2CHDUK5RT:shared_process": [],
-    "2CFPWN8ZX:shared_process": [],
-    "2CJT3A9WM:shared_process": [],
-    "2CFTT4BX1:shared_process": [],
-    "2CHPV1WNR:shared_process": [],
-    "2CH8NUNKD:shared_process": [],
-    "2CG24PUFX:shared_process": [],
-    "2CJHA5F79:shared_process": [],
-    "2CFD8HYGS:shared_process": [],
-    "2CH5TSP4J:shared_process": [],
-    "2CF3WY7WY:shared_process": [],
-    "2CFYWKGJK:shared_process": [],
-    "2CJFHW9TZ:shared_process": [],
-    "2CGEFHREK:shared_process": [],
-    "2CG4M1FG9:shared_process": [],
-    "2CH3SASQ1:shared_process": []
+    "spark:shared_process": []
   },
-  "config": {},
+  "config": {
+    "isZeppelinNotebookCronEnable": false
+  },
   "info": {}
 }
